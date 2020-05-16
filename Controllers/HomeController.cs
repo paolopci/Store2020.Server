@@ -11,9 +11,16 @@ namespace ServerApp.Controllers
 {
   public class HomeController : Controller
   {
+    private readonly DataContext _context;
+
+    public HomeController(DataContext context)
+    {
+      _context = context;
+    }
+
     public IActionResult Index()
     {
-      return View();
+      return View(_context.Products.First());
     }
 
     public IActionResult Privacy()
