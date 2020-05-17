@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.SpaServices.Extensions;
 using Microsoft.EntityFrameworkCore;
 using ServerApp.Models;
+using Microsoft.OpenApi.Models;
 
 namespace ServerApp
 {
@@ -31,9 +32,15 @@ namespace ServerApp
       services.AddDbContext<DataContext>(
         opts => opts.UseSqlServer(connectionString));
 
+// Chapter 5
+      services.AddControllersWithViews()
+              .AddJsonOptions(o=> { o.JsonSerializerOptions.IgnoreNullValues = true; });
 
-      services.AddControllersWithViews();
       services.AddRazorPages();
+      services.AddSwaggerGen(opt =>
+      {
+        opt.SwaggerDoc("v1", new OpenApiInfo {Title = "Store2020 API", Version = "v1"});
+      });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +71,15 @@ namespace ServerApp
           pattern: "{controller=Home}/{action=Index}/{id?}");
         endpoints.MapRazorPages();
       });
+      // Chapter 5 install Swagger
+      app.UseSwagger();
+      app.UseSwaggerUI(opts =>
+      {
+        opts.SwaggerEndpoint("/swagger/v1/swagger.json", "Store2020 API");
+      });
+
+
+
 
       app.UseSpa(spa =>
       {
