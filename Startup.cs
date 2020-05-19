@@ -70,7 +70,15 @@ namespace ServerApp
           name: "default",
           pattern: "{controller=Home}/{action=Index}/{id?}");
         endpoints.MapRazorPages();
+         // Chapter 7
+         endpoints.MapControllerRoute(
+           name: "angular_fallback",
+           pattern: "{target:regex(table|detail)}/{*catchall}",
+           defaults: new {controller = "Home", action = "Index"}
+         );
       });
+     
+
       // Chapter 5 install Swagger
       app.UseSwagger();
       app.UseSwaggerUI(opts =>
