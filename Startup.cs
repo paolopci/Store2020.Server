@@ -73,7 +73,7 @@ namespace ServerApp
          // Chapter 7
          endpoints.MapControllerRoute(
            name: "angular_fallback",
-           pattern: "{target:regex(store)}/{*catchall}",
+           pattern: "{target:regex(store|cart)}/{*catchall}",
            defaults: new {controller = "Home", action = "Index"}
          );
       });
